@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <%- include('./layouts/head'); -%>
+  <title><%= section.title %></title>
+  <% if (userRole === 'admin') { %>
+    <link rel="stylesheet" href="/public/Thirdparty/jodit/es2021.en/jodit.css">
+    <script src="/public/Thirdparty/jodit/es2021.en/jodit.js"></script>
+  <% } %>
+  <link rel="stylesheet" href="/public/css/dokuments.css">
+</head>
+<body class="has-header">
+  <%- include('./layouts/header'); -%>
+
+  <section class="section">
+    <div class="container">
+      <h1 class="title"><%= section.title %></h1>
+
+      <% if (userRole === 'admin') { %>
+        <form id="sectionForm">
+          <textarea id="sectionText"></textarea>
+          <button class="button is-primary mt-3" type="submit">Save</button>
+        </form>
+      <% } else { %>
+        <div id="sectionView" class="content"></div>
+      <% } %>
+    </div>
+  </section>
+
+  <%- include('./layouts/footer'); -%>
+
+  <script>
+    const sectionUrl = <%- JSON.stringify('/sections/' + section.slug) %>;
+    const isAdmin = <%- JSON.stringify(userRole === 'admin') %>;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch(`${sectionUrl}/data`);
+        const data = await response.json();
+
+        if (!isAdmin) {
+          document.getElementById('sectionView').innerHTML = data.text || '';
+          return;
+        }
+
+        const editor = new Jodit('#sectionText', {});
+        editor.value = data.text || '';
+        document.getElementById('sectionForm').addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const res = await fetch(sectionUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: editor.value })
+          });
+          const result = await res.json().catch(() => ({}));
+          alert(res.ok ? result.message : (result.error || 'Error saving'));
+        });
+      } catch (error) {
+        console.error('Error loading section:', error);
+      }
+    });
+  </script>
+</body>
+</html>

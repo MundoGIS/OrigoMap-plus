@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+  <%- include('./layouts/head'); -%>
+</head>
+  <body>
+    <%- include('./layouts/header'); -%>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Manage Users</h1>
+
+        <div class="box">
+          <h2 class="subtitle">Add New User</h2>
+          <form action="/admin/users/add" method="POST">
+            <div class="field">
+              <label class="label">Username</label>
+              <div class="control">
+                <input class="input" type="text" name="username" required>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Password</label>
+              <div class="control">
+                <input class="input" type="password" name="password" required minlength="12" autocomplete="new-password">
+              </div>
+              <p class="help">Minst 12 tecken.</p>
+            </div>
+            <div class="field">
+              <label class="label">Role</label>
+              <div class="control">
+                <div class="select">
+                  <select name="role" required>
+                    <option value="intern">Internal</option>
+                    <option value="extern">External</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <button class="button is-primary" type="submit">Add User</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="box">
+          <h2 class="subtitle">Existing Users</h2>
+          <table class="table is-fullwidth">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach(user=> { %>
+                <tr>
+                  <td>
+                    <%= user.username %>
+                  </td>
+                  <td>
+                    <%= user.role %>
+                  </td>
+                  <td>
+                    <form action="/admin/users/delete" method="POST" style="display:inline;">
+                      <input type="hidden" name="username" value="<%= user.username %>">
+                      <% if (user.username !=='admin' ) { %>
+                        <button class="button is-danger is-small" type="submit">Delete</button>
+                        <% } else { %>
+                          <button class="button is-danger is-small" disabled>Cannot Delete</button>
+                          <% } %>
+                    </form>
+                    <button class="button is-info is-small" onclick="showEditModal('<%= user.username %>')">Change
+                      Password</button>
+
+                    <% if (user.username !=='admin' ) { %>
+                      <button class="button is-link is-small" onclick="showMapModal('<%= user.username %>')">Manage
+                        Maps</button>
+                      <% } %>
+                  </td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <%- include('./layouts/footer'); -%>
+
+    <div id="editModal" class="modal">
+      <div class="modal-background" onclick="closeEditModal()"></div>
+      <div class="modal-content">
+        <div class="box">
+          <h2 class="title">Change Password</h2>
+          <form id="editForm" action="/admin/users/edit" method="POST">
+            <input type="hidden" name="username" id="editUsername">
+            <div class="field">
+              <label class="label">New Password</label>
+              <div class="control"><input class="input" type="password" name="password" required minlength="12" autocomplete="new-password"></div>
+            </div>
+            <div class="field">
+              <button class="button is-primary" type="submit">Change Password</button>
+              <button type="button" class="button is-light" onclick="closeEditModal()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" onclick="closeEditModal()"></button>
+    </div>
+
+    <div id="mapModal" class="modal">
+      <div class="modal-background" onclick="closeMapModal()"></div>
+      <div class="modal-content">
+        <div class="box">
+          <h2 class="title" id="mapModalTitle">Manage Maps for User</h2>
+          <div id="mapListContainer" style="max-height: 400px; overflow-y: auto; margin-bottom: 1.5rem;">
+          </div>
+          <div class="field is-grouped">
+            <div class="control">
+              <button id="saveMapPermissionsBtn" class="button is-primary">Save Changes</button>
+            </div>
+            <div class="control">
+              <button class="button is-light" onclick="closeMapModal()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" onclick="closeMapModal()"></button>
+    </div>
+
+    <script>
+      // --- JS para Modal de Contraseña (sin cambios) ---
+      function showEditModal(username) {
+        document.getElementById('editUsername').value = username;
+        document.getElementById('editModal').classList.add('is-active');
+      }
+      function closeEditModal() {
+        document.getElementById('editModal').classList.remove('is-active');
+      }
+
+      // --- NUEVO JS PARA MODAL DE MAPAS ---
+      const mapModal = document.getElementById('mapModal');
+      const mapListContainer = document.getElementById('mapListContainer');
+      const mapModalTitle = document.getElementById('mapModalTitle');
+      const saveMapPermissionsBtn = document.getElementById('saveMapPermissionsBtn');
+
+      async function showMapModal(username) {
+        mapModalTitle.textContent = `Manage Maps for: ${username}`;
+        mapListContainer.innerHTML = '<p>Loading maps...</p>'; // Indicador de carga
+        mapModal.classList.add('is-active');
+
+        try {
+          // 1. Obtener todos los mapas disponibles
+          const mapsResponse = await fetch('/origoadmin/api/maps'); // Prefijo de la ruta de admin
+          if (!mapsResponse.ok) throw new Error('Failed to load map list.');
+          const allMaps = await mapsResponse.json();
+
+          // 2. Obtener los mapas que el usuario ya tiene
+          // DESPUÉS (Correcto)
+          const userMapsResponse = await fetch(`/origoadmin/api/users/${username}/maps`);
+          if (!userMapsResponse.ok) throw new Error('Failed to load user permissions.');
+          const userMapsData = await userMapsResponse.json();
+          const allowedMaps = userMapsData.allowedMaps;
+
+          // 3. Crear y mostrar las casillas de verificación
+          if (allMaps.length === 0) {
+            mapListContainer.innerHTML = '<p>No maps available to assign.</p>';
+          } else {
+            mapListContainer.innerHTML = allMaps.map(mapName => `
+              <label class="checkbox" style="display: block; margin-bottom: 0.75rem;">
+                <input type="checkbox" value="${mapName}" ${allowedMaps.includes(mapName) ? 'checked' : ''}>
+                ${mapName}
+              </label>
+            `).join('');
+          }
+
+          // 4. Configurar el botón de guardar para este usuario específico
+          saveMapPermissionsBtn.onclick = () => saveMapPermissions(username);
+
+        } catch (error) {
+          mapListContainer.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+          console.error(error);
+        }
+      }
+
+      async function saveMapPermissions(username) {
+        const selectedMaps = Array.from(mapListContainer.querySelectorAll('input[type="checkbox"]:checked'))
+          .map(checkbox => checkbox.value);
+
+        try {
+const response = await fetch(`/origoadmin/api/users/${username}/maps`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ maps: selectedMaps })
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to save permissions.');
+          }
+
+          alert('Permissions saved successfully!');
+          closeMapModal();
+
+        } catch (error) {
+          alert(`Error: ${error.message}`);
+          console.error(error);
+        }
+      }
+
+      function closeMapModal() {
+        mapModal.classList.remove('is-active');
+      }
+    </script>
+  </body>
+
+</html>

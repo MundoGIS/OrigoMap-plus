@@ -1,0 +1,10 @@
+<% if (typeof flashMessages !== 'undefined' && flashMessages.length) { %>
+  <div class="container mt-4" aria-live="polite">
+    <% flashMessages.forEach((message) => { %>
+      <div class="notification <%= message.className %>" role="alert">
+        <button class="delete" type="button" aria-label="Stäng avisering" onclick="this.parentElement.remove()"></button>
+        <%= message.text %>
+      </div>
+    <% }); %>
+  </div>
+<% } %>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('./layouts/head'); -%>
+    <link rel="stylesheet" href="/public/css/media.css">
+</head>
+
+<body>
+  <% if (isAuthenticated && userRole==='admin' ) { %>
+    <header id="header">
+      <%- include('./layouts/header'); -%>
+    </header>
+    <% } else { %>
+      <p>You do not have access to this section.</p>
+      <% } %>
+
+        <div class="container">
+          <section class="section">
+            <div class="box">
+              <h1 class="title">Upload your images and icons</h1>
+              <!-- Formulario de subida -->
+              <form id="uploadForm" action="/media/api/files" method="post" enctype="multipart/form-data" class="form">
+                <div class="field is-grouped is-grouped-multiline">
+                  <!-- Campo para elegir archivo(s) -->
+                  <div class="control">
+                    <div class="file has-name">
+                      <label class="file-label">
+                        <input id="fileInput" class="file-input" type="file" name="files" multiple>
+                        <span class="file-cta">
+                          <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                          </span>
+                          <span class="file-label">Choose files...</span>
+                        </span>
+                        <span class="file-name">No file selected</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Opciones de tipo -->
+                  <div class="control is-expanded">
+                    <div class="field is-grouped is-grouped-multiline">
+                      <div class="control">
+                        <label class="radio">
+                          <input type="radio" name="uploadType" value="ikons" checked>
+                          <strong>ikons</strong>
+                          <small class="has-text-grey">(svg, png)</small>
+                        </label>
+                      </div>
+                      <div class="control">
+                        <label class="radio">
+                          <input type="radio" name="uploadType" value="images">
+                          <strong>images</strong>
+                          <small class="has-text-grey">(PNG, JPEG)</small>
+                        </label>
+                      </div>
+                      <div class="control">
+                        <label class="radio">
+                          <input type="radio" name="uploadType" value="logo">
+                          <strong>Logo</strong>
+                          <small class="has-text-grey">(svg or png)</small>
+                        </label>
+                      </div>
+                    </div>
+                    <!-- Vista previa (solo para imágenes, opcional) -->
+                    <div id="imagePreview" style="margin-top:0.5rem;"></div>
+                  </div>
+
+                  <!-- Botón de Upload -->
+                  <div class="control">
+                    <button id="uploadButton" class="button is-primary" type="submit" style="margin-left:1rem;">
+                      Upload
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- Sección para mostrar archivos ya subidos -->
+            <div class="box">
+              <h2 class="title">These are your images</h2>
+              <div class="columns">
+                <div class="column">
+                  <h3 class="subtitle">Icons</h3>
+                  <ul id="fileListIkons" class="is-size-5"></ul>
+                </div>
+                <div class="column">
+                  <h3 class="subtitle">Images</h3>
+                  <ul id="fileListImages" class="is-size-5"></ul>
+                </div>
+                <div class="column">
+                  <h3 class="subtitle">Logo</h3>
+                  <ul id="fileListLogo" class="is-size-5"></ul>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Modal para ver la imagen en tamaño completo -->
+          <div class="modal" id="imageModal" style="display:none;">
+            <!-- Fondo oscuro de Bulma -->
+            <div class="modal-background" id="modalBackground"></div>
+
+            <!-- Contenido del modal -->
+            <div class="modal-content">
+              <img id="fullImage" alt="Full Size" />
+              <div id="caption"></div>
+            </div>
+
+            <!-- Solo un botón para cerrar (o un span tuyo, pero sin la clase .modal-close) -->
+            <span id="closeModal"
+              style="position: absolute; top: 50px; right: 30px; cursor: pointer; color: #fff; font-size: 30px;">&times;</span>
+          </div>
+
+
+        </div>
+
+        <%- include('./layouts/footer'); -%>
+
+        <script>
+          function createItem(fileName, category) {
+            // --- DEBUGGING LINES ---
+            console.log(`Creating item: ${fileName}, Category: '${category}'`);
+            if (category === 'images') {
+              console.log(`Category is 'images' for ${fileName}. Adding panorama button.`);
+            }
+            // --- END DEBUGGING ---
+
+            const li = document.createElement('li');
+            li.className = 'media-item';
+
+            // Contenedor principal para el ítem
+            const itemContainer = document.createElement('div');
+            itemContainer.style.display = 'flex';
+            itemContainer.style.alignItems = 'center';
+            itemContainer.style.flexGrow = '1';
+
+
+            // La ruta de la imagen es necesaria para el modal y panorama, independientemente de la miniatura
+            const imgSrc = `/media-files/${category}/${fileName}`;
+
+            // ** Lógica CONDICIONAL para mostrar la miniatura solo si NO es 'images' **
+            if (category !== 'images') {
+              const img = document.createElement('img');
+              img.src = imgSrc;
+              img.className = 'media-thumbnail'; // Asegúrate de tener CSS para esta clase para el tamaño
+              img.alt = fileName;
+              img.style.marginRight = '10px'; // Espacio entre miniatura y nombre
+
+              // Opcional: Si quieres que la miniatura abra el modal al hacer clic (además del nombre)
+              img.style.cursor = 'pointer';
+              img.addEventListener('click', () => {
+                openModal(imgSrc, fileName);
+              });
+
+              itemContainer.appendChild(img); // Añade la miniatura al contenedor SÓLO si no es 'images'
+            }
+            // ** FIN Lógica CONDICIONAL **
+
+
+            // Nombre del archivo (siempre visible)
+            const span = document.createElement('span');
+            span.textContent = fileName;
+            span.className = 'media-filename';
+
+            // Permite abrir el modal o panorama haciendo clic en el nombre (funciona para todas las categorías)
+            span.style.cursor = 'pointer';
+            span.addEventListener('click', () => {
+              // Para 'images', abre el modal. Para 'ikons'/'logo', también abre el modal (si no quieres, añade otra condición aquí)
+              openModal(imgSrc, fileName);
+            });
+
+
+            itemContainer.appendChild(span); // Añade el nombre del archivo al contenedor
+
+            // Contenedor para los botones
+            const btnContainer = document.createElement('div');
+            btnContainer.className = 'media-buttons';
+
+
+            // Botón para copiar el enlace (siempre visible)
+            const copyBtn = document.createElement('button');
+            copyBtn.textContent = 'Copy Link';
+            copyBtn.className = 'button is-info is-small media-button';
+            copyBtn.addEventListener('click', () => {
+              const link = `${window.location.protocol}//${window.location.host}/media-files/${category}/${fileName}`;
+              navigator.clipboard.writeText(link)
+                .then(() => alert(`Image link copied:\n${link}`))
+                .catch((err) => console.error('Error copying link:', err));
+            });
+            btnContainer.appendChild(copyBtn);
+
+            // Botón "Open Panorama" solo para la categoría 'images'
+            if (category === 'images') {
+              const panoramaBtn = document.createElement('button');
+              panoramaBtn.textContent = 'Open Panorama';
+              panoramaBtn.className = 'button is-primary is-small media-button';
+              panoramaBtn.addEventListener('click', () => {
+                openPanoramaPage(imgSrc); // Pasa la ruta completa de la imagen
+              });
+              btnContainer.appendChild(panoramaBtn);
+            }
+
+            // Botón "Use as Site Logo" solo para la categoría 'logo'
+            if (category === 'logo') {
+              const setLogoBtn = document.createElement('button');
+              setLogoBtn.textContent = 'Use as Site Logo';
+              setLogoBtn.className = 'button is-primary is-small media-button';
+              setLogoBtn.addEventListener('click', () => {
+                useLogo(fileName);
+              });
+              btnContainer.appendChild(setLogoBtn);
+            }
+
+            // Botón para eliminar el archivo (para todas las categorías)
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.className = 'button is-danger is-small media-button';
+            deleteBtn.addEventListener('click', async () => {
+              if (confirm(`Are you sure you want to delete "${fileName}"?`)) {
+                try {
+                  const response = await fetch('/media/api/files/delete', {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ fileName, category })
+                  });
+                  const result = await response.json();
+                  if (response.ok) {
+                    alert(result.message);
+                    fetchFiles(); // Recargar la lista
+                  } else {
+                    alert(result.error || 'Error deleting file.');
+                  }
+                } catch (err) {
+                  console.error('Error deleting file:', err);
+                  alert('Could not delete file.');
+                }
+              }
+            });
+            btnContainer.appendChild(deleteBtn);
+
+            li.appendChild(itemContainer); // Añade el contenedor del ítem (miniatura + nombre)
+            li.appendChild(btnContainer); // Añade el contenedor de botones
+
+            return li;
+          }
+
+          // --- NEW: Function to open the panorama viewer page ---
+          function openPanoramaPage(imagePath) {
+            // Encode the image path to be safe for URL query parameters
+            const encodedImagePath = encodeURIComponent(imagePath);
+            // Construct the URL for the new viewer page
+            const viewerUrl = `/media/panorama-view?image=${encodedImagePath}`;
+            // Open the URL in a new browser tab
+            window.open(viewerUrl, '_blank');
+          }
+          // --- END NEW ---
+
+
+
+          // Función para abrir el modal con la imagen en tamaño completo
+          function openModal(imgSrc, fileName) {
+            const modal = document.getElementById('imageModal');
+            const fullImage = document.getElementById('fullImage');
+            const caption = document.getElementById('caption');
+
+            fullImage.src = imgSrc;
+            caption.textContent = fileName;
+            modal.style.display = 'block';
+          }
+
+          // Cerrar el modal al hacer clic en la 'X' o fuera de la imagen
+          document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('imageModal').style.display = 'none';
+          });
+          document.getElementById('imageModal').addEventListener('click', (e) => {
+            if (e.target.id === 'imageModal') {
+              document.getElementById('imageModal').style.display = 'none';
+            }
+          });
+
+
+          // Obtener la lista de archivos y actualizar las listas en la vista
+          async function fetchFiles() {
+            try {
+              const response = await fetch('/media/api/files');
+              const data = await response.json();
+              console.log('Datos cargados:', data);
+
+              // Limpiar listas actuales
+              document.getElementById('fileListIkons').innerHTML = '';
+              document.getElementById('fileListImages').innerHTML = '';
+              document.getElementById('fileListLogo').innerHTML = '';
+
+              // Rellenar cada lista según la categoría
+              if (data.ikons) {
+                data.ikons.forEach(file => {
+                  document
+                    .getElementById('fileListIkons')
+                    .appendChild(createItem(file, 'ikons'));
+                });
+              }
+              if (data.images) {
+                data.images.forEach(file => {
+                  document
+                    .getElementById('fileListImages')
+                    .appendChild(createItem(file, 'images'));
+                });
+              }
+              if (data.logo) {
+                data.logo.forEach(file => {
+                  document
+                    .getElementById('fileListLogo')
+                    .appendChild(createItem(file, 'logo'));
+                });
+              }
+            } catch (error) {
+              console.error('Error fetching file list:', error);
+            }
+          }
+
+          document.addEventListener('DOMContentLoaded', fetchFiles);
+
+          // Manejo del formulario de subida (se mantiene igual)
+          document.getElementById('uploadForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById('uploadForm'));
+            try {
+              const res = await fetch('/media/api/files', {
+                method: 'POST',
+                body: formData
+              });
+              const result = await res.json();
+              alert(result.message);
+              // Volver a cargar la lista de archivos
+              fetchFiles();
+            } catch (error) {
+              console.error('Error uploading files:', error);
+            }
+          });
+        </script>
+
+        <script>
+          async function useLogo(fileName) {
+            try {
+              const response = await fetch('/media/api/use-logo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fileName })
+              });
+              const data = await response.json();
+              if (response.ok) {
+                alert(data.message);
+              } else {
+                alert(data.error || 'Error updating logo.');
+              }
+            } catch (err) {
+              console.error('Error calling useLogo:', err);
+              alert('Could not update logo.');
+            }
+          }
+        </script>
+
+
+</body>
+
+</html>

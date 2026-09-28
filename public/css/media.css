@@ -1,0 +1,122 @@
+/* ===============================
+   Estilos para el modal (ya existentes)
+   =============================== */
+
+.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 36px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: #bbb;
+}
+
+.modal-content {
+  display: block;
+  margin: auto;
+  top: 10%;
+  max-width: 90%;
+  max-height: 90vh;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.4);
+  border: 2px solid #fff;
+  border-radius: 4px;
+}
+
+#caption {
+  margin: 10px auto;
+  text-align: center;
+  color: #ccc;
+  max-width: 80%;
+}
+
+/* ===============================
+     Estilos para la lista de archivos
+     =============================== */
+
+/* Asegúrate de que las listas tengan una clase para el estilo */
+.media-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Cada elemento de la lista */
+.media-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  /* ¡Esto es correcto y necesario! */
+  /* Asegúrate también de que el div interno que contiene la miniatura y el nombre
+     permita que sus elementos (el span del nombre) se reduzcan si es necesario */
+  /* En tu JS, este es el 'itemContainer'. No tienes estilos explícitos para él en CSS,
+      pero las propiedades flexbox del .media-item padre suelen ser suficientes.
+      Si tuviera problemas, podrías añadirle min-width: 0; */
+}
+
+/* Imagen de la miniatura */
+.media-thumbnail {
+  width: 50px;
+  height: auto;
+  margin-right: 1rem;
+  flex-shrink: 0;
+  /* Evita que la miniatura se encoja */
+}
+
+/* Contenedor para los botones */
+.media-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: auto;
+  /* Esto empuja los botones hacia la derecha en el flex container */
+}
+
+/* Nombre del archivo: se trunca si es muy largo */
+.media-filename {
+  flex-grow: 1;
+  /* Elimina o cambia las propiedades que causan la truncación */
+  overflow: visible;
+  /* Permite que el contenido sea visible aunque se desborde (combinado con normal/wrap, evita que se oculte) */
+  text-overflow: clip;
+  /* Evita añadir los puntos suspensivos */
+  white-space: normal;
+  /* PERMITE que el texto salte a la siguiente línea */
+
+  margin-right: 1rem;
+  /* Considera si aún necesitas max-width. Si lo quitas, el nombre ocupará el espacio que necesite.
+     Si lo dejas, el nombre saltará de línea dentro de ese max-width. */
+  /* max-width: 150px; */
+
+  /* Puedes añadir word-break si tienes nombres muy largos sin espacios */
+  word-break: break-word;
+  /* Rompe palabras largas si es necesario para que quepan */
+}
+
+
+
+/* Opcional: Ajustes extra para botones (los estilos Bulma ya aplican) */
+.media-button {
+  padding: 0.25rem 0.5rem;
+}

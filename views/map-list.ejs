@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="/public/Thirdparty/jodit/es2021.en/jodit.css">
+    <script src="/public/Thirdparty/jodit/es2021.en/jodit.js"></script>
+
+    <script>
+        self.MonacoEnvironment = {
+            getWorkerUrl: function (moduleId, label) {
+                const workerScriptPathBase = '/monaco-editor/min/vs'; // Base para los scripts 'vs'
+
+                if (label === 'json') {
+                    return `${workerScriptPathBase}/language/json/jsonWorker.js`;
+                }
+                if (label === 'css' || label === 'scss' || label === 'less') {
+                    return `${workerScriptPathBase}/language/css/cssWorker.js`;
+                }
+                if (label === 'html' || label === 'handlebars' || label === 'razor') {
+                    return `${workerScriptPathBase}/language/html/htmlWorker.js`;
+                }
+                if (label === 'typescript' || label === 'javascript') {
+                    return `${workerScriptPathBase}/language/typescript/tsWorker.js`;
+                }
+                // Worker genérico por defecto
+                return `${workerScriptPathBase}/editor/editor.worker.js`;
+            }
+        };
+    </script>
+
+    <style>
+        /* Estilos para los modales */
+        .modal {
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.is-active {
+            display: flex;
+        }
+
+        .modal-content.box {
+            max-height: 85vh;
+            overflow-y: auto;
+            width: 90%;
+            max-width: 800px;
+            /* Ancho para Jodit */
+        }
+
+
+        /* En tu <style> dentro de map-list.ejs */
+
+        /* Estilo para CUANDO el editor está ACTIVO Y VISIBLE */
+        /* (Algunos de estos se aplicarán con JS, pero tenerlos aquí puede ayudar como referencia o si JS falla) */
+        #json-editor-section {
+            /* display: none;  JS lo controlará */
+            /* position: fixed; JS lo controlará */
+            /* ... otros estilos de posicionamiento que JS controlará ... */
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            padding: 20px;
+            /* Usaremos flex para organizar el contenido interno (título, botones, editor) */
+            display: flex;
+            flex-direction: column;
+        }
+
+        #json-editor-section #monaco-editor-container {
+            flex-grow: 1;
+            /* Para que ocupe el espacio vertical restante */
+            position: relative;
+            border: 1px solid #dbdbdb;
+            overflow: hidden;
+            /* Monaco maneja su propio scroll */
+            width: 100%;
+            /* Ocupa el ancho del padding de su padre */
+            min-height: 300px;
+            /* Altura mínima */
+        }
+
+        #json-editor-section .monaco-editor {
+            /* El div interno de Monaco */
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Clase para el <body> cuando el editor está activo para evitar scroll de fondo */
+        body.has-editor-active {
+            /* Cambié el nombre de la clase para el body para evitar confusión */
+            overflow: hidden;
+        }
+
+        /* Estilos para los modales de Bulma (create, edit, delete, description) - mantenlos como estaban */
+        .modal {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        /* z-index más bajo que el editor */
+        .modal.is-active {
+            display: flex;
+        }
+
+        .modal-content.box {
+            max-height: 85vh;
+            overflow-y: auto;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .field+.field {
+            margin-top: 0.75rem;
+        }
+
+        /* Estilos icono candado */
+        .access-toggle-icon {
+            cursor: pointer;
+            margin-left: 8px;
+            font-size: 0.9em;
+            vertical-align: middle;
+        }
+
+        .access-toggle-icon.is-public {
+            color: hsl(141, 53%, 53%);
+        }
+
+        .access-toggle-icon.is-private {
+            color: hsl(348, 86%, 61%);
+        }
+
+        .access-toggle-icon:hover {
+            opacity: 0.7;
+        }
+
+        .access-toggle-icon.is-loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Estilo editor Jodit */
+        #description-modal .jodit-container {
+            min-height: 300px;
+            border: 1px solid #dbdbdb;
+        }
+
+        /* Añadir borde */
+
+        /* Estilo para botones desactivados */
+        button:disabled {
+            cursor: not-allowed !important;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('./layouts/header'); -%>
+        <div class="container">
+            <section class="section">
+                <div class="logo"> <img src="/public/images/logo.png" alt="Logo" class="image"> </div>
+                <h1 class="title">Map Configurations</h1>
+                <table class="table is-striped is-narrow is-hoverable is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Map File</th>
+                            <th colspan="7">Actions</th>
+                            <%# Ajustado colspan a 7 %>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <%# Ahora solo usa 'publishStateData' que viene del backend %>
+                            <% if (typeof files !=='undefined' && files.length> 0) { %>
+                                <% files.forEach(file=> { %>
+                                    <% const mapBaseName=file.replace('.json', '' ); %>
+                                        <%# Verifica si es el mapa 'index' %>
+                                            <% const isIndexMap=(mapBaseName.toLowerCase()==='index' ); %>
+
+                                                <%# Obtiene el estado del mapa desde publishStateData %>
+                                                    <% const mapState=(typeof publishStateData !=='undefined' &&
+                                                        publishStateData[mapBaseName] && typeof
+                                                        publishStateData[mapBaseName]==='object' ) ?
+                                                        publishStateData[mapBaseName] : { published: false, public:
+                                                        false, description: '' }; %>
+                                                        <% const isPublished=mapState.published===true; %>
+                                                            <% const isPublic=mapState.public===true; %>
+                                                                <%# Usa mapState.public %>
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            <i id="icon-<%= file %>"
+                                                                                class="fas fa-map-marker-alt map-icon"
+                                                                                style="color: <%= isPublished ? 'hsl(141, 53%, 53%)' : 'black' %>; cursor: <%= isPublished ? 'pointer' : 'default' %>;"
+                                                                                onclick="<%= isPublished ? `redirectToMapPage('${mapBaseName}')` : '' %>"
+                                                                                title="<%= isPublished ? 'Open Map (Published)' : 'Map not published' %>"></i>
+                                                                            <%= file %>
+                                                                                <i id="access-toggle-<%= mapBaseName %>"
+                                                                                    class="fas <%= isPublic ? 'fa-lock-open' : 'fa-lock' %> access-toggle-icon <%= isPublic ? 'is-public' : 'is-private' %>"
+                                                                                    data-mapname="<%= mapBaseName %>"
+                                                                                    data-current-state="<%= isPublic ? 'public' : 'private' %>"
+                                                                                    title="<%= isPublic ? 'Map is Public (Click to make Private)' : 'Map is Private (Click to make Public)' %>"
+                                                                                    onclick="handleToggleAccess('<%= mapBaseName %>')"></i>
+                                                                        </td>
+                                                                        <td> <button
+                                                                                class="button is-link is-outlined is-small"
+                                                                                onclick="openDescriptionEditor('<%= mapBaseName %>')">Edit
+                                                                                Desc.</button>
+                                                                        </td>
+                                                                        <td> <button class="button is-info is-small"
+                                                                                id="copyJsonButton-<%= file %>"
+                                                                                data-file="<%= file %>">Copy</button>
+                                                                        </td>
+                                                                        <td> <button class="button is-primary is-small"
+                                                                                onclick="openJsonEditor('<%= file %>')">Edit
+                                                                                JSON</button>
+                                                                        </td>
+                                                                        <td> <button class="button is-success is-small"
+                                                                                id="publishButton-<%= file %>"
+                                                                                data-file="<%= file %>" <%=(isPublished
+                                                                                || isIndexMap) ? 'disabled' : '' %>> <%#
+                                                                                    Condición Modificada %>
+                                                                                    Publish
+                                                                            </button>
+                                                                        </td>
+                                                                        <td> <button class="button is-warning is-small"
+                                                                                id="unpublishButton-<%= file %>"
+                                                                                data-file="<%= file %>" <%=(!isPublished
+                                                                                || isIndexMap) ? 'disabled' : '' %>> <%#
+                                                                                    Condición Modificada %>
+                                                                                    Unpublish
+                                                                            </button>
+                                                                        </td>
+                                                                        <td> <button class="button is-danger is-small"
+                                                                                id="deleteJSON-<%= file %>"
+                                                                                data-file="<%= file %>" <%=isIndexMap
+                                                                                ? 'disabled' : '' %>> <%# Condición
+                                                                                    Añadida %>
+                                                                                    Delete Map
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% }); %>
+                                                                        <% } else { %>
+                                                                            <tr>
+                                                                                <td colspan="7">No map configuration
+                                                                                    files found.</td>
+                                                                            </tr>
+                                                                            <%# Ajustado colspan %>
+                                                                                <% } %>
+                    </tbody>
+                </table>
+            </section>
+<br><br>
+            <section class="section" id="json-editor-section" style="display: none;"> 
+                <h1 class="title">Edit JSON: <span id="json-editor-filename"></span></h1>
+
+                <div class="editor-controls buttons are-small mb-4">
+                    <button class="button" onclick="editorUndo()" title="Undo (Ctrl+Z)">
+                        <span class="icon is-small"><i class="fas fa-undo"></i></span>
+                        <span>Undo</span>
+                    </button>
+                    <button class="button" onclick="editorRedo()" title="Redo (Ctrl+Y)">
+                        <span class="icon is-small"><i class="fas fa-redo"></i></span>
+                        <span>Redo</span>
+                    </button>
+                    <button class="button" onclick="editorFind()" title="Find (Ctrl+F)">
+                        <span class="icon is-small"><i class="fas fa-search"></i></span>
+                        <span>Find</span>
+                    </button>
+                    <button class="button" onclick="editorFormat()" title="Format Document">
+                        <span class="icon is-small"><i class="fas fa-align-left"></i></span>
+                        <span>Format</span>
+                    </button>
+                    <button class="button" onclick="editorCommandPalette()" title="Command Palette (F1)">
+                        <span class="icon is-small"><i class="fas fa-terminal"></i></span>
+                        <span>Commands</span>
+                    </button>
+                    <button class="button is-primary" onclick="saveJson()" title="Save changes to file">Save
+                        Changes</button>
+                    <button class="button is-info" onclick="openCreateModal()" title="Create Element">Create
+                        Element</button>
+                    <button class="button is-warning" onclick="openEditModal()" title="Edit Element">Edit
+                        Element</button>
+                    <button class="button is-danger" onclick="openDeleteModal()" title="Delete Element">Delete
+                        Element</button>
+                    <button class="button" onclick="closeJsonEditor()" title="Close editor">Cancel</button>
+                </div>
+                <div id="monaco-editor-container" style="height: 600px; border: 1px solid #dbdbdb;"></div>
+                <div id="error-message" class="help is-danger mt-2"></div>
+            </section>
+
+            <div id="create-modal" class="modal">
+                <div class="modal-background" onclick="closeCreateModal()"></div>
+                <div class="modal-content box">
+                    <button class="delete" aria-label="close" onclick="closeCreateModal()"></button>
+                    <h2 class="title is-4">Create New Element</h2>
+                    <%# Título que busca el JS %>
+                        <div class="field">
+                            <label class="label">Element Type</label>
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <%# Selector que busca el JS %>
+                                        <select id="create-selector" onchange="handleCreateSelection()">
+                                            <option value="wms">New WMS Layer</option>
+                                            <option value="wmts">New WMTS Layer</option>
+                                            <option value="wfs">New WFS Layer</option>
+                                            <option value="style">New Style</option>
+                                            <option value="source">New Source</option>
+                                            <option value="group">New Group (Legend)</option>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <%# Formulario que busca el JS %>
+                            <form id="create-form">
+                                <p class="help">Select element type first.</p>
+                            </form>
+                            <div class="field is-grouped is-grouped-right mt-4">
+                                <div class="control">
+                                    <button class="button is-success" onclick="applyCreateChanges()">Create
+                                        Element</button>
+                                </div>
+                                <div class="control">
+                                    <button class="button" type="button" onclick="closeCreateModal()">Cancel</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+            <div id="edit-modal" class="modal">
+                <div class="modal-background" onclick="closeEditModal()"></div>
+                <div class="modal-content box">
+                    <button class="delete" aria-label="close" onclick="closeEditModal()"></button>
+                    <h2 class="title is-4">Edit Element</h2>
+                    <%# Título que busca el JS %>
+                        <div class="field">
+                            <label class="label">Element Type</label>
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <%# Selector que busca el JS %>
+                                        <select id="edit-selector" onchange="handleEditSelection()">
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <%# Formulario que busca el JS %>
+                            <form id="edit-form">
+                                <p class="help">Select element type first.</p>
+                            </form>
+                            <div class="field is-grouped is-grouped-right mt-4">
+                                <div class="control">
+                                    <button class="button is-success" onclick="applyEditChanges()">Apply
+                                        Changes</button>
+                                </div>
+                                <div class="control">
+                                    <button class="button" type="button" onclick="closeEditModal()">Cancel</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+            <div id="delete-modal" class="modal">
+                <div class="modal-background" onclick="closeDeleteModal()"></div>
+                <div class="modal-content box">
+                    <button class="delete" aria-label="close" onclick="closeDeleteModal()"></button>
+                    <h2 class="title is-4">Delete Element</h2>
+                    <%# Título que busca el JS %>
+                        <div class="field">
+                            <label class="label">Element Type</label>
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <%# Selector que busca el JS %>
+                                        <select id="delete-selector" onchange="handleDeleteTypeSelection()">
+                                            <option value="">-- Select Type --</option>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <%# Contenedor para el segundo select que busca el JS %>
+                            <div id="delete-element-options" class="mt-3">
+                                <p class="help">Select element type first.</p>
+                            </div>
+                            <div class="field is-grouped is-grouped-right mt-4">
+                                <div class="control">
+                                    <%# Botón que busca el JS %>
+                                        <button id="delete-confirm-button" class="button is-danger"
+                                            onclick="applyDelete()" disabled>Delete Selected Element</button>
+                                </div>
+                                <div class="control">
+                                    <button class="button" type="button" onclick="closeDeleteModal()">Cancel</button>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+
+            <div id="description-modal" class="modal">
+                <div class="modal-background" onclick="closeDescriptionModal()"></div>
+                <div class="modal-content box">
+                    <button class="delete" aria-label="close" onclick="closeDescriptionModal()"></button>
+                    <h2 class="title is-4">Edit Map Description</h2>
+                    <p class="subtitle is-6" id="description-modal-mapname">Map: </p>
+                    <div class="field">
+                        <div class="control">
+                            <textarea id="descriptionEditorTextarea" name="description-content"></textarea>
+                        </div>
+                        <p class="help">Use the editor above to format the description (HTML is allowed).</p>
+                    </div>
+                    <div class="field is-grouped is-grouped-right mt-4">
+                        <div class="control">
+                            <button id="saveDescriptionButton" class="button is-success">Save Description</button>
+                        </div>
+                        <div class="control">
+                            <button class="button" type="button" onclick="closeDescriptionModal()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div id="monaco-editor-modal" class="modal">
+                <div class="modal-background" onclick="closeJsonEditor()"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Edit JSON: <span id="json-editor-filename"></span></p>
+                        <button class="delete" aria-label="close" onclick="closeJsonEditor()"></button>
+                    </header>
+                    <section class="modal-card-body">
+                        <div class="editor-controls buttons are-small mb-3">
+                            <button class="button" onclick="editorUndo()" title="Undo (Ctrl+Z)"><span
+                                    class="icon is-small"><i class="fas fa-undo"></i></span><span>Undo</span></button>
+                            <button class="button" onclick="editorRedo()" title="Redo (Ctrl+Y)"><span
+                                    class="icon is-small"><i class="fas fa-redo"></i></span><span>Redo</span></button>
+                            <button class="button" onclick="editorFind()" title="Find (Ctrl+F)"><span
+                                    class="icon is-small"><i class="fas fa-search"></i></span><span>Find</span></button>
+                            <button class="button" onclick="editorFormat()" title="Format Document"><span
+                                    class="icon is-small"><i
+                                        class="fas fa-align-left"></i></span><span>Format</span></button>
+                            <button class="button" onclick="editorCommandPalette()" title="Command Palette (F1)"><span
+                                    class="icon is-small"><i
+                                        class="fas fa-terminal"></i></span><span>Commands</span></button>
+                            <button class="button is-primary" onclick="saveJson()" title="Save changes to file">Save
+                                Changes</button>
+                            <button class="button is-info" onclick="openCreateModal()" title="Create Element">Create
+                                Element</button>
+                            <button class="button is-warning" onclick="openEditModal()" title="Edit Element">Edit
+                                Element</button>
+                            <button class="button is-danger" onclick="openDeleteModal()" title="Delete Element">Delete
+                                Element</button>
+                        </div>
+                        <div id="monaco-editor-container"></div>
+                        <div id="error-message" class="help is-danger mt-2"></div>
+                    </section>
+                    <%# Puedes añadir un modal-card-foot si quieres botones de acción abajo %>
+                        <%# <footer class="modal-card-foot">
+                            <button class="button is-success" onclick="saveJson()">Save</button>
+                            <button class="button" onclick="closeJsonEditor()">Cancel</button>
+                            </footer> %>
+                </div>
+            </div>
+            <div id="create-modal" class="modal">
+                <div class="modal-background" onclick="closeCreateModal()"></div>
+                <div class="modal-content box">
+                    <button class="delete" aria-label="close" onclick="closeCreateModal()"></button>
+                </div>
+            </div>
+            <div id="edit-modal" class="modal">
+                <div class="modal-background" onclick="closeEditModal()"></div>
+                <div class="modal-content box">
+                    <button class="delete" aria-label="close" onclick="closeEditModal()"></button>
+                </div>
+            </div>
+            <div id="delete-modal" class="modal">
+                <div class="modal-background" onclick="closeDeleteModal()"></div>
+                <div class="modal-content box">
+                    <button class="delete" aria-label="close" onclick="closeDeleteModal()"></button>
+                </div>
+            </div>
+            <div id="description-modal" class="modal">
+                <div class="modal-background" onclick="closeDescriptionModal()"></div>
+                <div class="modal-content box"> {/* Aquí usa modal-content box porque Jodit es más pequeño */}
+                    <button class="delete" aria-label="close" onclick="closeDescriptionModal()"></button>
+                </div>
+            </div>
+
+        </div>
+        </div>
+
+        <script src="/monaco-editor/min/vs/loader.js"></script>
+        <script src="/public/js/other/script_origo.js"></script>
+
+</body>
+
+</html>

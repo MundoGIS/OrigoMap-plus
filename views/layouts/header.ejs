@@ -1,0 +1,74 @@
+<style>
+    .logo-container {
+        width: 100px; /* Ajusta este valor al ancho deseado */
+        height: auto;
+    }
+
+    .logo-container img {
+        width: 90%; /* Ajusta la imagen al contenedor */
+        height: auto; /* Mantiene la proporción */
+    }
+
+    .navbar-item img {
+        max-height: 3.75rem;
+        padding-right: 0.5rem;
+        margin-left: 20%;
+    }
+</style>
+
+<header class="header">
+    <%- include('./flash-messages'); -%>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <div class="logo-container">
+                  <img src="/public/images/logo.png" alt="Origo Plus">
+                </div>
+              </a>
+              
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <% if (userRole === 'admin') { %>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" href="#">Origo</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="/origoadmin/origo-admin">Origo Plus</a>
+                    </div>
+                </div>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" href="#">Admin</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="/admin/users">Manage Users</a>
+                        <a class="navbar-item" href="/media">Media</a>
+                        <a class="navbar-item" href="/sections">Sections</a>
+                    </div>
+                </div>
+                <% } %>
+
+                <% (typeof menuSections !== 'undefined' ? menuSections : []).forEach(item => { %>
+                    <a class="navbar-item" href="/sections/<%= item.slug %>"><%= item.title %></a>
+                <% }) %>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <% if (isAuthenticated) { %>
+                        <a class="button is-light" href="/logout">Logout</a>
+                        <% } else { %>
+                        <a class="button is-primary" href="/login">Login</a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <%- include('./layouts/head'); -%>
+  <title>Manage Sections</title>
+  <style>
+    .access-list { max-height: 160px; overflow-y: auto; }
+    .access-list .checkbox { display: block; margin-bottom: 0.25rem; }
+  </style>
+</head>
+<body>
+  <%- include('./layouts/header'); -%>
+
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Manage Sections</h1>
+      <p class="subtitle is-6">Sections appear as buttons in the header menu for the users allowed to see them.</p>
+
+      <% function accessFields(item) { %>
+        <div class="field">
+          <label class="label">Visible to</label>
+          <div class="select">
+            <select name="visibility">
+              <option value="public" <%= item.visibility === 'public' ? 'selected' : '' %>>Everyone (also without login)</option>
+              <option value="authenticated" <%= item.visibility === 'authenticated' ? 'selected' : '' %>>All logged-in users</option>
+              <option value="restricted" <%= item.visibility === 'restricted' ? 'selected' : '' %>>Selected roles / users</option>
+            </select>
+          </div>
+        </div>
+        <div class="columns restricted-fields" <%- item.visibility === 'restricted' ? '' : 'style="display:none"' %>>
+          <div class="column">
+            <label class="label">Roles</label>
+            <div class="access-list">
+              <% roles.forEach(role => { %>
+                <label class="checkbox"><input type="checkbox" name="allowedRoles" value="<%= role %>" <%= (item.allowedRoles || []).includes(role) ? 'checked' : '' %>> <%= role %></label>
+              <% }) %>
+            </div>
+          </div>
+          <div class="column">
+            <label class="label">Users</label>
+            <div class="access-list">
+              <% if (users.length === 0) { %><p class="has-text-grey">No users.</p><% } %>
+              <% users.forEach(username => { %>
+                <label class="checkbox"><input type="checkbox" name="allowedUsers" value="<%= username %>" <%= (item.allowedUsers || []).includes(username) ? 'checked' : '' %>> <%= username %></label>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      <% } %>
+
+      <div class="box">
+        <h2 class="subtitle">New section</h2>
+        <form class="section-form" id="createForm">
+          <div class="columns">
+            <div class="column">
+              <div class="field">
+                <label class="label">Title</label>
+                <input class="input" name="title" required maxlength="100">
+              </div>
+            </div>
+            <div class="column">
+              <div class="field">
+                <label class="label">URL name (optional)</label>
+                <input class="input" name="slug" pattern="[a-z0-9][a-z0-9\-]*" maxlength="64" placeholder="generated from title">
+              </div>
+            </div>
+          </div>
+          <% accessFields({ visibility: 'authenticated' }) %>
+          <button class="button is-primary" type="submit">Create section</button>
+        </form>
+      </div>
+
+      <% sections.forEach((item, index) => { %>
+        <div class="box">
+          <form class="section-form" data-slug="<%= item.slug %>">
+            <div class="level">
+              <div class="level-left">
+                <div class="field level-item">
+                  <input class="input" name="title" value="<%= item.title %>" required maxlength="100">
+                </div>
+                <span class="level-item has-text-grey">/sections/<%= item.slug %></span>
+              </div>
+              <div class="level-right buttons">
+                <a class="button is-small is-link is-light" href="/sections/<%= item.slug %>">Open / edit text</a>
+                <button class="button is-small" type="button" data-move="up" <%= index === 0 ? 'disabled' : '' %>>&uarr;</button>
+                <button class="button is-small" type="button" data-move="down" <%= index === sections.length - 1 ? 'disabled' : '' %>>&darr;</button>
+              </div>
+            </div>
+            <% accessFields(item) %>
+            <div class="buttons">
+              <button class="button is-primary is-small" type="submit">Save</button>
+              <button class="button is-danger is-small" type="button" data-delete>Delete</button>
+            </div>
+          </form>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+
+  <%- include('./layouts/footer'); -%>
+
+  <script>
+    function formPayload(form) {
+      const data = new FormData(form);
+      return {
+        title: data.get('title'),
+        slug: data.get('slug') || undefined,
+        visibility: data.get('visibility'),
+        allowedRoles: data.getAll('allowedRoles'),
+        allowedUsers: data.getAll('allowedUsers')
+      };
+    }
+
+    async function send(url, method, body) {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: body ? JSON.stringify(body) : undefined
+      });
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(result.error || 'Request failed.');
+      return result;
+    }
+
+    document.querySelectorAll('.section-form').forEach(form => {
+      const slug = form.dataset.slug;
+      const encodedSlug = slug ? encodeURIComponent(slug) : '';
+
+      form.querySelector('select[name="visibility"]').addEventListener('change', (e) => {
+        form.querySelector('.restricted-fields').style.display = e.target.value === 'restricted' ? '' : 'none';
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+          if (slug) await send(`/sections/api/${encodedSlug}`, 'PUT', formPayload(form));
+          else await send('/sections/api', 'POST', formPayload(form));
+          location.reload();
+        } catch (err) { alert(err.message); }
+      });
+
+      if (!slug) return;
+
+      form.querySelector('[data-delete]').addEventListener('click', async () => {
+        if (!confirm(`Delete section "${form.elements.title.value}" and its text?`)) return;
+        try { await send(`/sections/api/${encodedSlug}`, 'DELETE'); location.reload(); }
+        catch (err) { alert(err.message); }
+      });
+
+      form.querySelectorAll('[data-move]').forEach(btn => btn.addEventListener('click', async () => {
+        try { await send(`/sections/api/${encodedSlug}/move`, 'PUT', { direction: btn.dataset.move }); location.reload(); }
+        catch (err) { alert(err.message); }
+      }));
+    });
+  </script>
+</body>
+</html>

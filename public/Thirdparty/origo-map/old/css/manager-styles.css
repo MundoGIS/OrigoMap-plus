@@ -1,0 +1,12 @@
+#json-dropdown {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200000;
+  }
+  
+  #map {
+    position: relative;
+    z-index: 200001; /* Un z-index más alto que el dropdown */
+  }

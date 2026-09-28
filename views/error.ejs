@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <%- include('./layouts/head'); -%>
+</head>
+<body>
+  <%- include('./layouts/flash-messages'); -%>
+  <section class="section">
+    <div class="container">
+      <div class="notification is-danger">
+        <h1 class="title is-4">Ett fel uppstod</h1>
+        <p><%= message || 'Begäran kunde inte slutföras.' %></p>
+      </div>
+      <a class="button is-light" href="/">Till startsidan</a>
+    </div>
+  </section>
+  <%- include('./layouts/footer'); -%>
+</body>
+</html>

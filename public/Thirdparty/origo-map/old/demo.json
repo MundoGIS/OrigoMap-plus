@@ -1,0 +1,1547 @@
+{
+  "controls": [
+    {
+      "name": "mapmenu",
+      "options": {}
+    },
+    {
+      "name": "mouseposition",
+      "options": {
+        "targetelement": "o-footer-l",
+        "coordinate_precision": 2
+      }
+    },
+    {
+      "name": "home",
+      "options": {}
+    },
+    {
+      "name": "geoposition",
+      "options": {}
+    },
+    {
+      "name": "legend",
+      "options": {
+        "turnOffLayersControl": true,
+        "labelOpacitySlider": "Opacitet",
+        "contentStyle": {
+          "width": "280px"
+        }
+      }
+    },
+    {
+      "name": "link",
+      "options": {
+        "title": "Rabbalshede Kraft",
+        "url": "https://www.rabbalshedekraft.se/sv"
+      }
+    },
+    {
+      "name": "about",
+      "options": {
+        "buttontext": "Om kartan",
+        "title": "Om kartan",
+        "content": "<p>Hittar du några fel i kartan eller har förbättringsförlag <a href='mailto:abel.gonzalez@rabbalshedekraft.se' target='_blank'>maila till oss.</a></p>"
+      }
+    },
+    {
+      "name": "print",
+      "options": {
+        "attribution": "Kartan har ingen rättsverkan och kan alltså INTE se exakta gränser.",
+        "logo": {
+          "cls": "padding-bottom-small",
+          "src": "/public/images/Rabb_logo.png",
+          "style": {
+            "height": "3rem"
+          }
+        }
+      }
+    },
+    {
+      "name": "scalepicker",
+      "options": {
+        "buttonPrefix": "Skala: ",
+        "listItemPrefix": "Skala: "
+      }
+    },
+    {
+      "name": "externalurl",
+      "options": {
+        "tooltipText": "Kartlänkar",
+        "links": [
+          {
+            "name": "googlestreet",
+            "tooltipText": "Google street view",
+            "method": "LatLon",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{LAT}},{{LON}}&heading=-45&pitch=10&fov=80",
+            "buttonImage": "/img/png/google_street_view.png"
+          },
+          {
+            "name": "maillary",
+            "tooltipText": "Mapillary",
+            "method": "LatLon",
+            "url": "https://www.mapillary.com/app/?lat={{LAT}}&lng={{LON}}&z=18",
+            "buttonImage": "/img/png/mapillary.png"
+          },
+          {
+            "name": "osc",
+            "tooltipText": "OpenStreetCam",
+            "method": "LatLon",
+            "url": "https://openstreetcam.org/map/@{{LAT}},{{LON}},18z",
+            "buttonImage": "/img/png/osc.png"
+          },
+          {
+            "name": "osm",
+            "tooltipText": "OpenStreetMap",
+            "method": "LatLon",
+            "url": "https://www.openstreetmap.org/#map=17/{{LAT}}/{{LON}}",
+            "buttonImage": "/img/png/osm.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "draganddrop",
+      "options": {
+        "groupName": "drag-and-drop-layers",
+        "groupTitle": "Drag-and-drop layers",
+        "styleByAttribute": true
+      }
+    },
+    {
+      "name": "editor",
+      "options": {
+        "isActive": false,
+        "autoSave": false,
+        "defaultLayer": "vindparker",
+        "drawTools": {
+          "Polygon": [
+            "box"
+          ]
+        }
+      }
+    },
+    {
+      "name": "exportmap",
+      "options": {
+        "buttonText": "Spara kartbild",
+        "attributionFontSize": 12,
+        "attributionFontColor": "#000000"
+      }
+    },
+    {
+      "name": "measure",
+      "options": {
+        "elevationServiceURL": "https://karta.sundsvall.se/origoserver/lm/elevation/3006/{easting}/{northing}",
+        "elevationAttribute": "geometry.coordinates[2]",
+        "measureTools": [
+          "area",
+          "length",
+          "elevation"
+        ]
+      }
+    },
+    {
+      "name": "position",
+      "options": {
+        "title": "Sweref99 TM",
+        "projections": {
+          "EPSG:4326": "WGS84",
+          "EPSG:3014": "Sweref99 1715"
+        }
+      }
+    },
+    {
+      "name": "search",
+      "options": {
+        "url": "https://karta.rabbalshedekraft.se/origoserver/search",
+        "layerNameAttribute": "TYPE",
+        "idAttribute": "GID",
+        "searchAttribute": "NAMN",
+        "geometryAttribute": "GEOM",
+        "hintText": "Sök projekt..."
+      }
+    },
+    {
+      "name": "draw",
+      "options": {
+        "buttonText": "Rita",
+        "drawTools": {
+          "Polygon": [
+            "freehand",
+            "box"
+          ],
+          "LineString": [
+            "freehand"
+          ]
+        },
+        "showAttributeButton": true,
+        "showDownloadButton": true,
+        "showSaveButton": true,
+        "multipleLayers": true,
+        "queryable": false,
+        "removable": true,
+        "exportable": true,
+        "layerTitle": "Ritlager",
+        "groupTitle": "Ritlåda",
+        "groupName": "rit"
+      }
+    },
+    {
+      "name": "sharemap",
+      "options": {
+        "storeMethod": "saveStateToServer",
+        "serviceEndpoint": "https://karta.sundsvall.se/mapstate"
+      }
+    }
+  ],
+  "pageSettings": {
+    "footer": {
+      "img": "/img/png/drake_white_50.png",
+      "url": "https://www.rabbalshedekraft.se/sv",
+      "urlText": "2D-karta Rabbalshede Kraft"
+    }
+  },
+  "projectionExtent": [
+    120000,
+    6100000,
+    900000,
+    7690000
+  ],
+  "extent": [
+    120000,
+    6100000,
+    900000,
+    7690000
+  ],
+  "center": [
+    529130,
+    6220585
+  ],
+  "resolutions": [
+    6532.8,
+    3532.8,
+    1766,
+    839.99,
+    419.99,
+    280,
+    209,
+    140,
+    70,
+    41.99,
+    27.99,
+    20,
+    13.99,
+    6.99,
+    4.1,
+    2.8,
+    2.09,
+    1.4,
+    0.7,
+    0.42,
+    0.28,
+    0.21,
+    0.14,
+    0.07
+  ],
+  "zoom": 0,
+  "featureinfoOptions": {
+    "pinning": false,
+    "overlay": true
+  },
+  "projectionCode": "EPSG:3006",
+  "proj4Defs": [
+    {
+      "code": "EPSG:3006",
+      "alias": "urn:ogc:def:crs:EPSG::3006",
+      "projection": "+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+    },
+    {
+      "code": "EPSG:3014",
+      "alias": "urn:ogc:def:crs:EPSG::3014",
+      "projection": "+proj=tmerc +lat_0=0 +lon_0=17.25 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+    }
+  ],
+  "groups": [
+    {
+      "name": "Natur",
+      "title": "Natur & Skyddsområden",
+      "expanded": false,
+      "groups": [
+        {
+          "name": "RI",
+          "title": "Riksintresse",
+          "expanded": false
+        },
+        {
+          "name": "skyddsformer",
+          "title": "Skyddsformer",
+          "expanded": false
+        },
+        {
+          "name": "vatten",
+          "title": "Vattenmyndigheten",
+          "expanded": false
+        }
+      ]
+    },
+    {
+      "name": "Granser",
+      "title": "Gränser",
+      "expanded": false,
+      "groups": [
+        {
+          "name": "Granser",
+          "title": "Gränser",
+          "expanded": false
+        }
+      ]
+    },
+    {
+      "name": "energiparker",
+      "title": "Energiparker",
+      "expanded": true,
+      "groups": [
+        {
+          "name": "Solparker",
+          "title": "Solparker",
+          "expanded": false
+        },
+        {
+          "name": "Batteriparker",
+          "title": "Batteriparker",
+          "expanded": false
+        },
+        {
+          "name": "Vindparker",
+          "title": "Vindkraftparker",
+          "expanded": false
+        }
+      ]
+    },
+    {
+      "name": "background",
+      "title": "Bakgrundskartor",
+      "expanded": true
+    }
+  ],
+  "source": {
+    "Geoserver": {
+      "url": "https://tiles.rabbalshedekraft.se/geoserver/wms",
+      "version": "1.1.1",
+      "service": "WMS"
+    },
+    "Testing": {
+      "url": "https://ows.rabbalshedekraft.se/demo.qgz",
+      "version": "2.0",
+      "service": "WFS"
+    },
+    "MinKarta": {
+      "url": "https://minkarta.lantmateriet.se/map/fastighetsindelning",
+      "service": "WMS"
+    },
+    "Geoserver_auth": {
+      "url": "https://int.rabbalshedekraft.se/wfs-proxy",
+      "service": "WFS"
+    },
+    "qgisserver-ri": {
+      "url": "https://ows.rabbalshedekraft.se/RI.qgz",
+      "service": "WFS"
+    },
+    "qgisserver-vatten": {
+      "url": "https://ows.rabbalshedekraft.se/vatten.qgz",
+      "service": "WFS"
+    },
+    "qgisserver-skydd": {
+      "url": "https://ows.rabbalshedekraft.se/kyddsformer.qgz",
+      "service": "WFS"
+    },
+    "qgisserver-Natura2000": {
+      "url": "https://ows.rabbalshedekraft.se/Natura2000.qgz",
+      "service": "WFS"
+    },
+    "qgisserver-skyddsformer": {
+      "url": "https://ows.rabbalshedekraft.se/skyddsformer.qgz",
+      "service": "WFS"
+    }
+  },
+  "layers": [
+    {
+      "name": "vindparker",
+      "title": "Vindkraft parker",
+      "group": "Vindparker",
+      "editable": true,
+      "geometryType": "Polygon",
+      "geometryName": "geometry",
+      "type": "WFS",
+      "typeName": "vindparker",
+      "outputFormat": "application/json",
+      "queryable": true,
+      "visible": true,
+      "source": "Testing",
+      "style": "naturvard",
+      "attributes": [
+        {
+          "name": "NAMN",
+          "title": "Name: ",
+          "type": "text",
+          "maxLength": 50
+        },
+        {
+          "name": "Status",
+          "title": "Status: ",
+          "type": "text",
+          "maxLength": 50
+        }
+      ]
+    },
+    {
+      "name": "batteriparker",
+      "title": "Batteriparker",
+      "group": "Batteriparker",
+      "editable": true,
+      "geometryName": "geom",
+      "geometryType": "Polygon",
+      "type": "WFS",
+      "typeName": "batteriparker",
+      "outputFormat": "application/json",
+      "queryable": true,
+      "visible": true,
+      "source": "Geoserver_auth",
+      "style": "naturvard",
+      "attributes": [
+        {
+          "name": "NAMN",
+          "title": "Name: ",
+          "type": "text",
+          "maxLength": 50
+        },
+        {
+          "name": "Status",
+          "title": "Status: ",
+          "type": "text",
+          "maxLength": 50
+        }
+      ]
+    },
+    {
+      "name": "solparker",
+      "title": "Solparker",
+      "group": "Solparker",
+      "editable": true,
+      "geometryName": "geom",
+      "geometryType": "Polygon",
+      "type": "WFS",
+      "typeName": "solparker",
+      "outputFormat": "application/json",
+      "queryable": true,
+      "visible": true,
+      "source": "Testing",
+      "style": "solparker",
+      "attributes": [
+        {
+          "name": "NAMN",
+          "title": "Name: ",
+          "type": "text",
+          "maxLength": 50
+        },
+        {
+          "name": "Status",
+          "title": "Status: ",
+          "type": "text",
+          "maxLength": 50
+        }
+      ]
+    },
+    {
+      "name": "adm_vattenmyndigheter",
+      "title": "Myndigheter",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "dvo",
+      "type": "WFS"
+    },
+    {
+      "name": "gw_tillrinning_mod_direkt_svar2016",
+      "title": "GW tillrinning direkt 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "gw_tillrinning_mod_direkt_svar2016",
+      "type": "WFS"
+    },
+    {
+      "name": "gw_tillrinning_mod_via_vdr_svar2016",
+      "title": "GW tillrinning via vdr 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "gw_tillrinning_mod_via_vdr_svar2016",
+      "type": "WFS"
+    },
+    {
+      "name": "kustvatten_vattenforekomster_2016_1",
+      "title": "Kustvatten vattenförekomster 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "kustvatten_vattenforekomster_2016_1",
+      "type": "WFS"
+    },
+    {
+      "name": "sjoar_vattenforekomster_2016_1",
+      "title": "Sjöar vattenförekomster 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "sjoar_vattenforekomster_2016_1",
+      "type": "WFS"
+    },
+    {
+      "name": "sw_daro_2016_1",
+      "title": "SW daro 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "sw_daro_2016_1",
+      "type": "WFS"
+    },
+    {
+      "name": "sw_haro_2016_1",
+      "title": "SW haro 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "sw_haro_2016_1",
+      "type": "WFS"
+    },
+    {
+      "name": "sw_varo_2016_1",
+      "title": "SW varo 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "sw_varo_2016_1",
+      "type": "WFS"
+    },
+    {
+      "name": "utsjovatten_vattenforekomster_2016_1",
+      "title": "Utsjovatten vattenförekomster 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "utsjovatten_vattenforekomster_2016_1",
+      "type": "WFS"
+    },
+    {
+      "name": "vattendrag_ovrigtvatten_2016_1",
+      "title": "Vattendrag övrigtvatten 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "vattendrag_ovrigtvatten_2016_1",
+      "type": "WFS"
+    },
+    {
+      "name": "vattendrag_vattenforekomster_2016_1",
+      "title": "Vattendrag vattenförekomster 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "vattendrag_vattenforekomster_2016_1",
+      "type": "WFS"
+    },
+    {
+      "name": "vm.atgardsomraden_vatten",
+      "title": "VM atgärdsområden vatten",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "vm.atgardsomraden_vatten",
+      "type": "WFS"
+    },
+    {
+      "name": "vm.viss_cw_2016_1_param",
+      "title": "VM viss cw 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "vm.viss_cw_2016_1_param",
+      "type": "WFS"
+    },
+    {
+      "name": "vm.viss_lw_2016_1_param",
+      "title": "VM viss lw 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "vm.viss_lw_2016_1_param",
+      "type": "WFS"
+    },
+    {
+      "name": "vm.viss_rw_2016_1_param",
+      "title": "VM viss rw 2016",
+      "group": "vatten",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-vatten",
+      "style": "vm.viss_rw_2016_1_param",
+      "type": "WFS"
+    },
+    {
+      "name": "if_polygon",
+      "title": "IF",
+      "group": "skyddsformer",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-skydd",
+      "style": "if_polygon",
+      "type": "WFS"
+    },
+    {
+      "name": "kr_polygon",
+      "title": "KR",
+      "group": "skyddsformer",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-skydd",
+      "style": "kr_polygon",
+      "type": "WFS"
+    },
+    {
+      "name": "lbso_polygon",
+      "title": "IBSO",
+      "group": "skyddsformer",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-skydd",
+      "style": "lbso_polygon",
+      "type": "WFS"
+    },
+    {
+      "name": "nm_polygon",
+      "title": "NM",
+      "group": "skyddsformer",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-skydd",
+      "style": "nm_polygon",
+      "type": "WFS"
+    },
+    {
+      "name": "np_polygon",
+      "title": "NP",
+      "group": "skyddsformer",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-skydd",
+      "style": "np_polygon",
+      "type": "WFS"
+    },
+    {
+      "name": "nr_polygon",
+      "title": "NR",
+      "group": "skyddsformer",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-skydd",
+      "style": "nr_polygon",
+      "type": "WFS"
+    },
+    {
+      "name": "nvo_polygon",
+      "title": "NVO",
+      "group": "skyddsformer",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-skydd",
+      "style": "nvo_polygon",
+      "type": "WFS"
+    },
+    {
+      "name": "obo_polygon",
+      "title": "OBO",
+      "group": "skyddsformer",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-skydd",
+      "style": "obo_polygon",
+      "type": "WFS"
+    },
+    {
+      "name": "sksbiotopskydd",
+      "title": "Sksbiotopskydd",
+      "group": "skyddsformer",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-skydd",
+      "style": "sksbiotopskydd",
+      "type": "WFS"
+    },
+    {
+      "name": "tilltradesforbud",
+      "title": "Tillträdesförbud",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "tilltradesforbud",
+      "type": "WFS"
+    },
+    {
+      "name": "dvo_polygon",
+      "title": "DVO",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "dvo_polygon",
+      "type": "WFS"
+    },
+    {
+      "name": "lst.lst_ri_hogexploateradkust_mb4kap4",
+      "title": "Högexploateradkust mb4kap4",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "hogexploateradkust",
+      "type": "WFS"
+    },
+    {
+      "name": "lst.lst_ri_nationalstadspark_mb4kap7",
+      "title": "Nationalstadspark mb4kap7",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "nationalstadspark",
+      "type": "WFS"
+    },
+    {
+      "name": "lst.lst_ri_obrutet_fjall_mb4kap5",
+      "title": "Obrutet fjäll mb4kap5",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "obrutet_fjall",
+      "type": "WFS"
+    },
+    {
+      "name": "lst.lst_ri_rorligt_friluftsliv_mb4kap2",
+      "title": "Rörligt friluftsliv mb4kap2",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "friluftsliv",
+      "type": "WFS"
+    },
+    {
+      "name": "lst.lst_ri_skyddade_vattendrag_mb4kap6",
+      "title": "Skyddade vattendrag mb4kap6",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "skyddade_vattendrag",
+      "type": "WFS"
+    },
+    {
+      "name": "lst.riks_slutforvaring",
+      "title": "Slutförvaring",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "slutforvaring",
+      "type": "WFS"
+    },
+    {
+      "name": "msa_omrade",
+      "title": "MSA omräde",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "msa",
+      "type": "WFS"
+    },
+    {
+      "name": "raa.raa_ri_kulturmiljovard_mb3kap6",
+      "title": "Kulturmiljövärd mb3kap6",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "kulturmiljovard",
+      "type": "WFS"
+    },
+    {
+      "name": "ri_vind2013_land_hav_150330",
+      "title": "Vind land & hav",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "vind",
+      "type": "WFS"
+    },
+    {
+      "name": "riksintresse_naturvard",
+      "title": "Naturvärd",
+      "group": "RI",
+      "queryable": true,
+      "visible": false,
+      "source": "qgisserver-ri",
+      "style": "naturvard",
+      "type": "WFS"
+    },
+    {
+      "name": "text",
+      "title": "Fastighetsbeteckning",
+      "format": "image/png",
+      "queryable": false,
+      "visible": false,
+      "type": "WMS",
+      "group": "Granser",
+      "attribution": "Kartan har ingen rättsverkan och du kan alltså INTE se exakta gränser i denna karttjänst &copy Lantmäteriet Geodatasamverkan",
+      "source": "MinKarta",
+      "style": "karta_gra",
+      "tiled": true
+    },
+    {
+      "name": "granser",
+      "title": "Fastighetsgräns",
+      "format": "image/png",
+      "queryable": false,
+      "visible": false,
+      "type": "WMS",
+      "group": "Granser",
+      "attribution": "Kartan har ingen rättsverkan och du kan alltså INTE se exakta gränser i denna karttjänst &copy Lantmäteriet Geodatasamverkan",
+      "source": "MinKarta",
+      "style": "karta_gra",
+      "tiled": true
+    },
+    {
+      "name": "LMV:Ortofoto_025",
+      "title": "Ortofoto 0,25 m upplösning",
+      "format": "image/png",
+      "queryable": false,
+      "visible": false,
+      "type": "WMS",
+      "group": "background",
+      "attribution": "LMV",
+      "source": "Geoserver",
+      "style": "orto",
+      "tiled": true
+    },
+    {
+      "name": "topowebbkartan",
+      "title": "Karta, Färg",
+      "format": "image/png",
+      "queryable": false,
+      "visible": false,
+      "type": "WMS",
+      "group": "background",
+      "attribution": "LMV",
+      "source": "Geoserver",
+      "style": "karta_farg",
+      "tiled": true
+    },
+    {
+      "name": "LMV:topowebbkartan_nedtonad",
+      "title": "Karta, grå",
+      "format": "image/png",
+      "queryable": false,
+      "visible": true,
+      "type": "WMS",
+      "group": "background",
+      "attribution": "Kartan har ingen rättsverkan och du kan alltså INTE se exakta gränser i denna karttjänst &copy Lantmäteriet Geodatasamverkan",
+      "source": "Geoserver",
+      "style": "karta_gra",
+      "tiled": true
+    }
+  ],
+  "styles": {
+    "mask": [
+      [
+        {
+          "stroke": {
+            "color": "rgba(0,0,0,1.0)"
+          },
+          "fill": {
+            "color": "rgba(0,0,0,1.0)"
+          }
+        }
+      ]
+    ],
+    "egenskapsbestammelserYta": [
+      [
+        {
+          "icon": {
+            "src": "https://karta.sundsvall.se/geoserver/wms?service=wms&?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=RIGES:EgenskapsBestammelser_yta&FORMAT=image%2Fgif"
+          },
+          "extendedLegend": true
+        }
+      ]
+    ],
+    "anvandningsbestammelser": [
+      [
+        {
+          "icon": {
+            "src": "https://karta.sundsvall.se/geoserver/wms?service=wms&?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=RIGES:AnvandningsBestammelser_yta&FORMAT=image%2Fgif"
+          },
+          "extendedLegend": true
+        }
+      ]
+    ],
+    "detaljplanGallandeText": [
+      [
+        {
+          "icon": {
+            "src": "https://karta.sundsvall.se/geoserver/wms?service=wms&?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=SundsvallsKommun:DetaljplanGallandeText_punkt&FORMAT=image%2Fgif"
+          }
+        }
+      ]
+    ],
+    "gallandeDetaljplan": [
+      [
+        {
+          "icon": {
+            "src": "https://karta.sundsvall.se/geoserver/wms?SERVICE=WMS&?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=RIGES:DetaljplanGallande_yta&FORMAT=image%2Fgif"
+          }
+        }
+      ]
+    ],
+    "fastighetsgranser": [
+      [
+        {
+          "icon": {
+            "src": "https://karta.sundsvall.se/Teckenforklaring/Lantmateriet/fastighetsgrans.png"
+          },
+          "extendedLegend": true
+        }
+      ]
+    ],
+    "pagaendeDetaljplaner": [
+      [
+        {
+          "icon": {
+            "src": "https://karta.sundsvall.se/geoserver/wms?service=wms&?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=SundsvallsKommun:SVaxer_PagaendeDetaljplanShape_punkt&FORMAT=image%2Fgif"
+          },
+          "extendedLegend": true
+        }
+      ]
+    ],
+    "anvandningsform": [
+      [
+        {
+          "icon": {
+            "src": "https://karta.sundsvall.se/geoserver/wms?service=wms&?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=RIGES:Anvandningsform_yta&FORMAT=image%2Fgif"
+          },
+          "extendedLegend": true
+        }
+      ]
+    ],
+    "SammanhallenBebyggelse": [
+      [
+        {
+          "icon": {
+            "src": "https://karta.sundsvall.se/geoserver/wms?service=wms&?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=RIGES:SammanhallenBebyggelse_yta&FORMAT=image%2Fgif"
+          }
+        }
+      ]
+    ],
+    "utanfordetaljplanelagtomrade": [
+      [
+        {
+          "icon": {
+            "src": "https://karta.sundsvall.se/geoserver/gwc/service/wms?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=RIGES%3AUtomplansbestammelser_yta&FORMAT=image%2Fgif"
+          }
+        }
+      ]
+    ],
+    "orto": [
+      [
+        {
+          "image": {
+            "src": "/public/Thirdparty/origo-map/img/png/orto.png"
+          }
+        }
+      ]
+    ],
+    "karta_farg": [
+      [
+        {
+          "image": {
+            "src": "/public/Thirdparty/origo-map/img/png/farg.png"
+          }
+        }
+      ]
+    ],
+    "karta_gra": [
+      [
+        {
+          "image": {
+            "src": "/public/Thirdparty/origo-map/img/png/gra.png"
+          }
+        }
+      ]
+    ],
+    "egenskapsbestammelserLinje": [
+      [
+        {
+          "icon": {
+            "src": "https://karta.sundsvall.se/geoserver/wms?service=wms&?TRANSPARENT=TRUE&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=RIGES:EgenskapsBestammelser_linje&FORMAT=image%2Fgif"
+          },
+          "extendedLegend": true
+        }
+      ]
+    ],
+    "dvo": [
+      [
+        {
+          "fill": {
+            "color": "rgba(139, 69, 19, 0.7)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          },
+          "fillPattern": {
+            "pattern": "dots",
+            "color": "rgba(139, 69, 19, 0.7)",
+            "size": "2"
+          }
+        }
+      ]
+    ],
+    "hogexploateradkust": [
+      [
+        {
+          "fill": {
+            "color": "rgba(0, 0, 128, 0.7)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "nationalstadspark": [
+      [
+        {
+          "fill": {
+            "color": "#d57c7c"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "obrutet_fjall": [
+      [
+        {
+          "fill": {
+            "color": "#d57c7c"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "friluftsliv": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 165, 0, 0.7)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          },
+          "fillPattern": {
+            "pattern": "verticalStripes",
+            "color": "rgba(255, 165, 0, 0.7)",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "skyddade_vattendrag": [
+      [
+        {
+          "fill": {
+            "color": "rgba(173, 216, 230, 0.7)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          },
+          "fillPattern": {
+            "pattern": "horizontalStripes",
+            "color": "rgba(173, 216, 230, 0.7)",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "slutforvaring": [
+      [
+        {
+          "fill": {
+            "color": "#d57c7c"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "msa": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 182, 193, 0.7)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "kulturmiljovard": [
+      [
+        {
+          "fill": {
+            "color": "rgba(144, 238, 144, 0.7)"
+          },
+          "fillPattern": {
+            "pattern": "dots",
+            "color": "rgba(144, 238, 144, 0.7)",
+            "size": "2"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "varldsarv": [
+      [
+        {
+          "fill": {
+            "color": "rgba(0, 100, 0, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          },
+          "fillPattern": {
+            "pattern": "diagonalLeft",
+            "color": "rgba(0, 100, 0, 0.3)",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "vind": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 192, 203, 0.5)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "naturvard": [
+      [
+        {
+          "fill": {
+            "color": "#008000"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": "2"
+          },
+          "fillPattern": {
+            "pattern": "diagonalRight",
+            "color": "#008000",
+            "width": "2"
+          }
+        }
+      ]
+    ],
+    "gw_tillrinning_mod_direkt_svar2016": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 99, 71, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "gw_tillrinning_mod_via_vdr_svar2016": [
+      [
+        {
+          "fill": {
+            "color": "rgba(70, 130, 180, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "kustvatten_vattenforekomster_2016_1": [
+      [
+        {
+          "fill": {
+            "color": "rgba(34, 139, 34, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "sjoar_vattenforekomster_2016_1": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 215, 0, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "sw_daro_2016_1": [
+      [
+        {
+          "fill": {
+            "color": "rgba(0, 191, 255, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "sw_haro_2016_1": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 69, 0, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "sw_varo_2016_1": [
+      [
+        {
+          "fill": {
+            "color": "rgba(218, 112, 214, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "utsjovatten_vattenforekomster_2016_1": [
+      [
+        {
+          "fill": {
+            "color": "rgba(147, 112, 219, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "vattendrag_ovrigtvatten_2016_1": [
+      [
+        {
+          "fill": {
+            "color": "rgba(244, 164, 96, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "vattendrag_vattenforekomster_2016_1": [
+      [
+        {
+          "fill": {
+            "color": "rgba(46, 139, 87, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "vm.atgardsomraden_vatten": [
+      [
+        {
+          "fill": {
+            "color": "rgba(123, 104, 238, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "vm.viss_cw_2016_1_param": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 182, 193, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "vm.viss_lw_2016_1_param": [
+      [
+        {
+          "fill": {
+            "color": "rgba(250, 128, 114, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "vm.viss_rw_2016_1_param": [
+      [
+        {
+          "fill": {
+            "color": "rgba(0, 255, 127, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "if_polygon": [
+      [
+        {
+          "fill": {
+            "color": "rgba(240, 128, 128, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "kr_polygon": [
+      [
+        {
+          "fill": {
+            "color": "rgba(70, 130, 180, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "lbso_polygon": [
+      [
+        {
+          "fill": {
+            "color": "rgba(210, 105, 30, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "nm_polygon": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 99, 71, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "np_polygon": [
+      [
+        {
+          "fill": {
+            "color": "rgba(65, 105, 225, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "nr_polygon": [
+      [
+        {
+          "fill": {
+            "color": "rgba(34, 139, 34, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "nvo_polygon": [
+      [
+        {
+          "fill": {
+            "color": "rgba(186, 85, 211, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "obo_polygon": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 140, 0, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "sksbiotopskydd": [
+      [
+        {
+          "fill": {
+            "color": "rgba(0, 206, 209, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "tilltradesforbud": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 0, 255, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "dvo_polygon": [
+      [
+        {
+          "fill": {
+            "color": "rgba(72, 209, 204, 0.3)"
+          },
+          "stroke": {
+            "color": "#5b0b0b",
+            "width": 2
+          }
+        }
+      ]
+    ],
+    "solparker": [
+      [
+        {
+          "fill": {
+            "color": "rgba(255, 165, 0, 0.3)"
+          },
+          "stroke": {
+            "color": "#000000",
+            "width": "1",
+            "lineDash": [
+              2,
+              2
+            ]
+          }
+        }
+      ]
+    ]
+  }
+}
