@@ -28,6 +28,16 @@ node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 
 Skapa ett första administratörskonto i `auth/users.json` före första start. Filen och dess inloggningsuppgifter distribueras inte med repot, och det finns inget standardlösenord. Lösenordet måste sparas som en bcrypt-hash. Förvara den första kopian i organisationens säkra lösenordshanterare.
 
+Använd skriptet för att skapa kontot eller återställa ett glömt lösenord. Lösenordet frågas efter dolt i terminalen (minst 12 tecken) och hamnar inte i kommandohistoriken:
+
+```powershell
+npm.cmd run reset-password -- admin --create   # skapa admin om kontot saknas
+npm.cmd run reset-password -- admin            # byt lösenord för befintligt konto
+npm.cmd run reset-password -- anna --create --role extern
+```
+
+Ett bytt lösenord avslutar kontots aktiva sessioner. Servern behöver inte startas om.
+
 Starta portalen:
 
 ```powershell

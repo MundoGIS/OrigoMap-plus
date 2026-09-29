@@ -1,0 +1,193 @@
+{
+  "singleConnections": [
+    {
+      "id": "1740663022621",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": ""
+    },
+    {
+      "id": "1741879013513",
+      "host": "int.rabbalshedekraft.se",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": ""
+    }
+  ],
+  "multiConnections": [
+    {
+      "id": "1741267529374",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "RAA_kultur"
+      ]
+    },
+    {
+      "id": "1741268912027",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Naturvardsverket"
+      ]
+    },
+    {
+      "id": "1741270254472",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Vatten"
+      ]
+    },
+    {
+      "id": "1741270260654",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Vindbrukskollen"
+      ]
+    },
+    {
+      "id": "1741270268863",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Trafikverket_RI"
+      ]
+    },
+    {
+      "id": "1741270289476",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Forsvaret_RI"
+      ]
+    },
+    {
+      "id": "1741270297458",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Jordbruksverket"
+      ]
+    },
+    {
+      "id": "1741270310421",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Naturvardsverket_vmi"
+      ]
+    },
+    {
+      "id": "1741270319810",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Riksintresse"
+      ]
+    },
+    {
+      "id": "1741270379647",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "SGU_Geologiska_undersokningar"
+      ]
+    },
+    {
+      "id": "1741272787124",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Lansstyrelserna"
+      ]
+    },
+    {
+      "id": "1741879023926",
+      "host": "int.rabbalshedekraft.se",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Natura2000"
+      ]
+    },
+    {
+      "id": "1741883559714",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Riksintresse_"
+      ]
+    },
+    {
+      "id": "1743001311168",
+      "host": "int.rabbalshedekraft.se",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "LMV_topo10"
+      ]
+    },
+    {
+      "id": "1749474170601",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Skogsstyrelsen"
+      ]
+    },
+    {
+      "id": "1749474715059",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "vind",
+      "schemas": [
+        "kranshallarna_site"
+      ]
+    },
+    {
+      "id": "1749474991904",
+      "host": "localhost",
+      "user": "postgres",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schemas": [
+        "Trafikverket_RI",
+        "testNatura"
+      ]
+    }
+  ]
+}

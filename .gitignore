@@ -7,26 +7,7 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 
-# Local configuration and credentials
-.env
-.env.*
-!.env.example
-auth/users.json
-models/connections*.json
-models/access-state.json
-models/publish-state.json
-data/site-config/site-config.json
-data/3d-jsons/
-data/sessions/
 
-# User uploads, generated maps, cached data, and backups
-data/temp_uploads/
-data/uploaded/
-data/downloads/
-data/saved/
-data/backup/
-data/raster/
-data/sections/
 
 # Operating system files
 .DS_Store

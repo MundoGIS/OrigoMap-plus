@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 64 64">
+  <!-- Estructura principal del juego -->
+  <rect x="12" y="20" width="10" height="24" fill="#F39C12" stroke="#D35400" stroke-width="2"/>
+  <rect x="42" y="20" width="10" height="24" fill="#F39C12" stroke="#D35400" stroke-width="2"/>
+  <polygon points="12,20 22,10 32,20" fill="#D35400"/>
+  <!-- Tobogán -->
+  <path d="M22,44 C22,50 34,50 34,44 L30,44 C30,48 26,48 26,44" fill="#E67E22" stroke="#D35400" stroke-width="2"/>
+  <!-- Columpio -->
+  <line x1="47" y1="20" x2="47" y2="40" stroke="#D35400" stroke-width="2"/>
+  <circle cx="47" cy="44" r="4" fill="#E67E22" stroke="#D35400" stroke-width="2"/>
+  <!-- Escalera -->
+  <line x1="17" y1="44" x2="17" y2="20" stroke="#D35400" stroke-width="2"/>
+  <line x1="17" y1="26" x2="22" y2="26" stroke="#D35400" stroke-width="2"/>
+  <line x1="17" y1="32" x2="22" y2="32" stroke="#D35400" stroke-width="2"/>
+</svg>

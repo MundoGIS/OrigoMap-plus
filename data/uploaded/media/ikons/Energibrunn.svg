@@ -1,0 +1,7 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Flecha hacia arriba (frío) -->
+  <path d="M32 4 L26 12 H30 V36 H34 V12 H38 L32 4 Z" fill="#007BFF"/>
+  
+  <!-- Flecha hacia abajo (calor) -->
+  <path d="M32 60 L38 52 H34 V28 H30 V52 H26 L32 60 Z" fill="#FF4500"/>
+</svg>

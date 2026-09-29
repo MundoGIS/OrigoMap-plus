@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+  <!-- Cuadrado rotado 45° -->
+  <rect x="25" y="25" width="50" height="50"
+        fill="purple"
+        transform="rotate(45 50 50)" />
+  <!-- Letra B centrada -->
+  <text x="50" y="57" text-anchor="middle" fill="white"
+        font-family="Arial, sans-serif" font-size="30" font-weight="bold">
+    B
+  </text>
+</svg>

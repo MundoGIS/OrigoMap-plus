@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <rect x="10" y="30" width="80" height="60" fill="none" stroke="black" stroke-width="2"/>
+  <path d="M 20 30 L 20 10 L 80 10 L 80 30" fill="none" stroke="black" stroke-width="2"/>
+  <line x1="20" y1="50" x2="80" y2="50" stroke="black" stroke-width="2"/>
+  <line x1="20" y1="70" x2="80" y2="70" stroke="black" stroke-width="2"/>
+  <line x1="20" y1="90" x2="80" y2="90" stroke="black" stroke-width="2"/>
+  <line x1="50" y1="30" x2="50" y2="90" stroke="black" stroke-width="2"/>
+  <text x="50" y="95" font-family="Arial" font-size="12" text-anchor="middle" fill="black">Byggnadsminne</text>
+</svg>

@@ -1,0 +1,11 @@
+[
+  {
+    "slug": "hur-fungerar-det",
+    "title": "Hur fungerar det",
+    "visibility": "restricted",
+    "allowedRoles": [
+      "intern"
+    ],
+    "allowedUsers": []
+  }
+]

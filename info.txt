@@ -1,0 +1,8 @@
+npm.cmd run reset-password -- admin                       # cambiar la contraseña de un usuario existente
+npm.cmd run reset-password -- admin --create              # crear el admin si no existe
+npm.cmd run reset-password -- anna --create --role extern # crear otro usuario con su rol
+
+
+
+node scripts\reset-password.js admin
+node scripts\reset-password.js admin --create

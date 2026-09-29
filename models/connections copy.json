@@ -1,0 +1,116 @@
+{
+  "connections": [
+    {
+      "id": "1724676314666",
+      "host": "127.0.0.1",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "vatten"
+    },
+    {
+      "id": "1726051694840",
+      "host": "127.0.0.1",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "natura2000"
+    },
+    {
+      "id": "1728028078019",
+      "host": "127.0.0.1",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "vindbrukskollen"
+    },
+    {
+      "id": "1728639056552",
+      "host": "int.rabbalshedekraft.se",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "ri"
+    },
+    {
+      "id": "1729148631124",
+      "host": "int.rabbalshedekraft.se",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "helcom"
+    },
+    {
+      "id": "1729149215121",
+      "host": "localhost",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "naturvardsverket_vmi"
+    },
+    {
+      "id": "1730295879764",
+      "host": "int.rabbalshedekraft.se",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "strandskydd"
+    },
+    {
+      "id": "1731677572720",
+      "host": "int.rabbalshedekraft.se",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "skogsstyrelsen"
+    },
+    {
+      "id": "1731874572531",
+      "host": "localhost",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "skyddsformer"
+    },
+    {
+      "id": "1732113863147",
+      "host": "int.rabbalshedekraft.se",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "SGU"
+    },
+    {
+      "id": "1732531112768",
+      "host": "int.rabbalshedekraft.se",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "Jordbruksverket"
+    },
+    {
+      "id": "1734348984320",
+      "host": "127.0.0.1",
+      "user": "admin",
+      "password": "Maylise-2050",
+      "dbName": "opendata",
+      "schema": "Lansstyrelserna"
+    },
+    {
+      "id": "1737965686208",
+      "host": "int.rabbalshedekraft.se",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "demo"
+    },
+    {
+      "id": "1737967298710",
+      "host": "127.0.0.1",
+      "user": "admin",
+      "password": "Enzo2011",
+      "dbName": "opendata",
+      "schema": "RI_Forsvaret"
+    }
+  ]
+}
