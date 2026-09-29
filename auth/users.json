@@ -3,5 +3,14 @@
     "username": "admin",
     "password": "$2b$14$xZFEkoPd2Flb6bGpl8kdVOb69sXSvUJXf9TRZCBxinLlVW.Kn0DZS",
     "role": "admin"
+  },
+  {
+    "username": "user-1",
+    "password": "$2b$14$kMgRPBaSDc47qi3U4LgMOeaS2BEIYEPKq/PdXDBYnhnkIZMtiuKkK",
+    "role": "intern",
+    "allowedMaps": [
+      "Stockholm",
+      "Goteborg"
+    ]
   }
 ]
