@@ -1,7 +1,7 @@
 {
   "index": {
     "published": true,
-    "public": false,
+    "public": true,
     "description": "<p>Standard webbkartan.&nbsp;</p>"
   },
   "Stockholm": {
