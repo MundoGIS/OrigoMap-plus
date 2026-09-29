@@ -3,5 +3,15 @@
     "published": true,
     "public": false,
     "description": "<p>Standard webbkartan.&nbsp;</p>"
+  },
+  "Stockholm": {
+    "published": true,
+    "public": true,
+    "description": ""
+  },
+  "Goteborg": {
+    "published": true,
+    "public": true,
+    "description": ""
   }
 }
